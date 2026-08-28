@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Fahrschul Assistent – Übung (Klasse B)</title>
+  <meta name="description" content="Fahrschul-Quiz Klasse B – offline, lokal auf dem Gerät. Falsche Antwort? Du bekommst sofort erklärt, was richtig ist.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Fahrschul Assistent">
+  <meta name="theme-color" content="#000000">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/style.css?v=25">
+</head>
+<body>
+
+  <header class="hdr">
+    <div class="hdr-inner">
+      <span class="hdr-title">Fahrschul&nbsp;Assistent</span>
+      <span class="hdr-badge">Klasse B</span>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- Start -->
+    <section id="start" class="view active">
+      <div class="start-card">
+        <h1>Fahrschul Assistent</h1>
+        <p class="stat"><span id="statCount">–</span> Fragen · Klasse B · offline auf deinem Gerät</p>
+        <div class="menu">
+          <button id="startBtn" class="btn mbtn">Zufallsfrage</button>
+          <button id="mExam" class="btn mbtn">Test Prüfung (30 Fragen)</button>
+          <button id="mSchilder" class="btn mbtn">Schilder-Fragen</button>
+          <button id="mZahl" class="btn mbtn">Zahleneingabe-Fragen</button>
+          <button id="mEinfach" class="btn mbtn">Einfachwahl-Fragen</button>
+          <button id="mMehrfach" class="btn mbtn">Mehrfachwahl-Fragen</button>
+          <button id="mVideo" class="btn mbtn">Videofragen</button>
+        </div>
+      </div>
+
+      <div class="stats-card">
+        <h2>Meine Statistik</h2>
+        <div id="stats"></div>
+        <button id="resetStats" class="btn small">Statistik zurücksetzen</button>
+      </div>
+    </section>
+
+    <!-- Frage -->
+    <section id="quiz" class="view">
+      <div id="qMeta" class="qmeta"></div>
+      <div id="qText" class="qtext"></div>
+      <div id="qMedia" class="qmedia"></div>
+      <div id="answers" class="answers"></div>
+      <div id="numInput" class="numinput hidden">
+        <input id="numField" type="text" inputmode="decimal" placeholder="Zahl eingeben …">
+        <button id="numOk" class="btn">Prüfen</button>
+      </div>
+      <div class="actions">
+        <button id="homeBtn" class="btn" title="Zur Startseite">Zurück</button>
+        <button id="checkBtn" class="btn big">Antwort prüfen</button>
+        <button id="nextBtn" class="btn big hidden">Nächste Frage</button>
+      </div>
+      <div id="feedback" class="feedback"></div>
+    </section>
+
+    <!-- Prüfungsergebnis -->
+    <section id="result" class="view">
+      <div class="start-card">
+        <h1 id="resTitle">Ergebnis</h1>
+        <div id="resDetail" class="res-detail"></div>
+        <div class="actions">
+          <button id="resAgain" class="btn big">Neue Prüfung</button>
+          <button id="resHome" class="btn">Zum Menü</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Verlauf (letzte 10 Fragen) -->
+    <section id="verlauf" class="view">
+      <div class="stats-card">
+        <h2>Verlauf (letzte 10)</h2>
+        <div id="history"></div>
+      </div>
+    </section>
+
+    <!-- Prüfungen -->
+    <section id="pruefungen" class="view">
+      <div class="stats-card">
+        <h2>Meine Prüfungen</h2>
+        <div id="exams"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="tabbar">
+    <button class="tab active" data-view="start">Übung</button>
+    <button class="tab" data-view="verlauf">Verlauf</button>
+    <button class="tab" data-view="pruefungen">Prüfungen</button>
+  </nav>
+
+  <footer class="ftr">
+    <p>Daten: aktueller amtlicher Fragenkatalog (Klasse B, Stand 01.04.2025) – liegt komplett auf diesem Gerät.</p>
+
+    <div id="offlineCard" class="offline-card hidden">
+      <div class="offline-title">Offline-Download</div>
+      <div class="offline-line">Bilder: <b id="offImgs">0/0</b> &nbsp;·&nbsp; Videos: <b id="offVids">0/0</b></div>
+      <div id="offCurrent" class="offcurrent hidden">Lädt gerade: <span id="offCurrentName">…</span></div>
+      <div id="offProgress" class="offprogress hidden"><div id="offBar" class="offbar-fill"></div></div>
+      <div id="offPct" class="offpct"></div>
+      <div id="offNote" class="offnote">Alle Bilder &amp; Videos werden automatisch heruntergeladen – am besten im WLAN. App ruhig offen lassen.</div>
+    </div>
+
+    <p><span id="ver">Version 25</span>
+      <button id="updateBtn" class="btn small">Update prüfen</button></p>
+  </footer>
+
+  <script src="data/questions.js?v=25"></script>
+  <script src="js/core.js?v=25"></script>
+  <script src="js/app.js?v=25"></script>
+  <script>
+    // Service Worker (offline) – Cache-Buster (?v=25) + updateViaCache:'none'.
+    // Registrierung wird immer versucht; auf http scheitert sie still (kein SW).
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js?v=25', { updateViaCache: 'none' }).catch(function () {});
+    }
+  </script>
+</body>
+</html>

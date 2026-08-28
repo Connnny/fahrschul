@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fahrschul Assistent – Fragen &amp; Erklärungen</title>
+  <meta name="description" content="Fahrschul-Assistent: Fragennummer eingeben und sofort Antwort + Erklärung zur Theorieprüfung (Klasse B) erhalten.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🚗</span>
+        <span class="logo-text">Fahrschul&nbsp;Assistent</span>
+        <span class="logo-badge">Klasse B</span>
+      </div>
+      <nav class="tabs" aria-label="Bereiche">
+        <button class="tab-btn active" data-view="search">🔍 Suche</button>
+        <button class="tab-btn" data-view="themes">📚 Themen</button>
+        <button class="tab-btn" id="randomTab">🎲 Zufall</button>
+        <button class="tab-btn" data-view="favs">⭐ Favoriten<span class="fav-badge" id="favCount"></span></button>
+      </nav>
+    </div>
+    <div class="header-search">
+      <div class="search-inner">
+        <input id="searchInput" type="text" autocomplete="off" spellcheck="false"
+               placeholder="Fragennummer eingeben, z. B. 1.4.41-175 oder 1576 … dann Enter drücken">
+        <button id="searchGo" class="btn-search" title="Suchen (Enter)">↵ Suchen</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Suche -->
+    <section id="view-search" class="view active">
+      <p class="hint">Tipp: Fragennummer eingeben — offiziell (<b>1.4.41-175</b>), als Kapitel (<b>1.4.41</b>),
+        oder die laufende Nummer aus deiner Fahrschul-App (<b>1576</b> / „Frage 1576").
+        Es erscheint eine Trefferliste — mit <b>Enter</b> oder Klick öffnest du die Frage.
+        Auch Volltextsuche möglich (z. B. „Bremsweg").</p>
+      <div id="searchResults">
+        <p class="empty">Gib eine Fragennummer (z. B. <b>1.4.41-175</b> oder <b>1576</b>) oder einen Suchbegriff ein.</p>
+      </div>
+    </section>
+
+    <!-- Themen -->
+    <section id="view-themes" class="view">
+      <h1 class="view-title">Themen &amp; Kapitel</h1>
+      <div id="themesBox"></div>
+    </section>
+
+    <!-- Favoriten -->
+    <section id="view-favs" class="view">
+      <h1 class="view-title">⭐ Meine Favoriten</h1>
+      <div id="favsBox"></div>
+    </section>
+
+    <!-- Detailansicht -->
+    <section id="view-detail" class="view">
+      <button id="backBtn" class="btn btn-back">← Zurück zur Suche</button>
+      <div id="detailBox" class="card"></div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      <span id="statCount">– Fragen</span> · <span id="statExp">– mit Erklärung</span> ·
+      <b>Klasse B</b> · aktueller amtlicher Fragenkatalog (Stand 01.04.2025), aufbereitet aus
+      <a href="https://www.fuehrerschein-bestehen.de" target="_blank" rel="noopener">fuehrerschein-bestehen.de</a>.
+    </p>
+    <p class="disclaimer">
+      Nur zur Lernunterstützung. Für die offizielle Prüfungsvorbereitung bitte die aktuellen
+      amtlichen Unterlagen deiner Fahrschule bzw. die offiziellen Lern-Apps verwenden.
+      Abbildungen/Videos werden direkt vom Quell-CDN geladen – dafür ist eine Internetverbindung nötig.
+    </p>
+  </footer>
+
+  <script src="data/questions.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
